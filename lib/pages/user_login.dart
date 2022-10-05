@@ -30,23 +30,29 @@ class UserLoginPageState extends State<UserLoginPage> {
         password: inputPassword,
       );
 
+      final User? user = credential.user;
+
+      if (user == null) {
+        setState(() {
+          _loginErrorText = 'Failed to get user information.';
+        });
+
+        return;
+      }
+
       if (!mounted) return;
 
-      print('test');
-
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const TodoListPage()),
+        MaterialPageRoute(builder: (context) => TodoListPage(user: user)),
       );
     } on FirebaseAuthException catch (e) {
-      print('error');
-
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {
         setState(() {
           _loginErrorText = 'Incorrect email address or password';
         });
       } else {
         setState(() {
-          _loginErrorText = e.toString();
+          _loginErrorText = 'unknown error';
         });
       }
     }

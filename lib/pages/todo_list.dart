@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:my_todolist/pages/todo_add.dart';
 import 'package:my_todolist/pages/todo_detail.dart';
 
+import 'package:my_todolist/pages/option.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+
 class TodoListPage extends StatefulWidget {
-  const TodoListPage({super.key});
+  User user;
+
+  TodoListPage({super.key, required this.user});
 
   @override
   TodoListPageState createState() => TodoListPageState();
@@ -46,6 +52,24 @@ class TodoListPageState extends State<TodoListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('TodoList'),
+      ),
+      drawer: Drawer(
+        child: Center(
+          child: Column(
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => OptionPage(),
+                    ),
+                  );
+                },
+                child: const Text('Options'),
+              )
+            ],
+          ),
+        ),
       ),
       body: Center(
         child: ListView.builder(
