@@ -138,6 +138,5 @@ class UserRegisterPageState extends State<UserRegisterPage> {
         ),
       ),
     );
-    ;
   }
 }

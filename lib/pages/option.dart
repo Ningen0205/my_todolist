@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:matcher/matcher.dart';
 import 'package:my_todolist/pages/user_login.dart';
 
 class OptionPage extends StatelessWidget {
+  const OptionPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Option')),
-      // drawer: Drawer(
-      //   child: Center(
-      //     child: Column(children: [
-      //       TextButton(onPressed: () {
-      //         Navigator.of(context).
-      //       }, child: const Text('Options'))
-      //     ]),
-      //   ),
-      // ),
       body: Center(
         child: Column(
           children: [

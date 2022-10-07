@@ -4,6 +4,7 @@ import 'package:my_todolist/pages/user_login.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -11,6 +12,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
 
   runApp(const MyApp());
 }

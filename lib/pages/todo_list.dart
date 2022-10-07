@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_todolist/logics/datastore.dart';
 import 'package:my_todolist/pages/todo_add.dart';
-import 'package:my_todolist/pages/todo_detail.dart';
 
 import 'package:my_todolist/pages/option.dart';
 
@@ -16,33 +16,13 @@ class TodoListPage extends StatefulWidget {
 }
 
 class TodoListPageState extends State<TodoListPage> {
-  List<String> todoList = [];
+  List<Todo> todoList = [];
 
   Widget _buildListItem(BuildContext context, int index) {
     return Card(
       child: ListTile(
-        title: Text(todoList[index]),
-        onTap: () async {
-          TodoEditResult? todoEditResult =
-              await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => TodoDetailPage(todoName: todoList[index]),
-          ));
-
-          if (todoEditResult == null) return;
-
-          if (todoEditResult.todoAction == TodoAction.rename &&
-              todoEditResult.newName != null) {
-            setState(() {
-              todoList[index] = todoEditResult.newName!;
-            });
-          }
-
-          if (todoEditResult.todoAction == TodoAction.delete) {
-            setState(() {
-              todoList.removeAt(index);
-            });
-          }
-        },
+        title: Text(todoList[index].text),
+        onTap: () async {},
       ),
     );
   }
@@ -61,7 +41,7 @@ class TodoListPageState extends State<TodoListPage> {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => OptionPage(),
+                      builder: (context) => const OptionPage(),
                     ),
                   );
                 },
@@ -80,17 +60,17 @@ class TodoListPageState extends State<TodoListPage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () async {
-          final String? todoText = await Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const TodoAddPage()),
+          await Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (context) => TodoAddPage(user: widget.user)),
           );
 
-          // 空文字 or nullは追加しない
-          if (todoText == null || todoText == '') return;
-
-          // setStateで囲わないと再描画されなさそう
-          setState(() {
-            todoList.add(todoText);
+          setState(() async {
+            await TodoStoreLogic().getTodos(widget.user);
           });
+          var test = await TodoStoreLogic().getTodos(widget.user);
+
+          print(test);
         },
       ),
     );
